@@ -2,13 +2,13 @@ All:
 	node_modules\.bin\tsc
 
 datatypes:
-	node datatypes.js
+	node ./dist/datatypes.js
 
 functions:
-	node functions.js
+	node ./dist/functions.js
 
 class:
-	node class.js
+	node ./dist/class.js
 
 interface:
-	node interface.js
+	node ./dist/interface.js
