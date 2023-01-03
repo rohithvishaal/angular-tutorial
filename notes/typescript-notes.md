@@ -3,21 +3,19 @@
 * Created and Maintained by Microsoft
 * Superset of JS
 
- ## Why TypeScript?
----
+## Why TypeScript?
+
 * Compiles to JS
 * Keeps your Code Evergreen
 * Supported by all major libs and frameworks
 
 ## Type Safety
----
 * Keeps your app free from type errors
 * C#, Java are examples of Type Safe Languages
 * Keep your JS code free from undefined and null values
 * In TS types are stripped when your code is converted to JS
 
 ## Installing and creating First TS Program
----
 * Install Node
 * Use Latest version of Node JS  
 
@@ -34,7 +32,6 @@
     ```
 
 ## Compiling TS 
----
 ### Example
 ```ts
 // newscript.ts
@@ -50,7 +47,6 @@ $ tsc
 let lname = 'Vishaal';
 ```
 ## Data Types
----
 * **string**
 * **number**
 * **boolean**
@@ -62,29 +58,24 @@ let lname = 'Vishaal';
 * **never**
 
 ## Examples for types
----
 
 ### string
----
 ```ts
 let name : string
 name = 'Vishaal'
 ```
 ### number 
----
 ```ts
 let age : number
 age = 24
 ```
 ### boolean
----
 > This is not initialized to anything like in other languages
 ```ts
 let isValid : boolean
 isValid = true
 ```
 ### array
----
 1) **Type 1**
 ```ts
 let places : string[]
@@ -95,7 +86,6 @@ let places : Array<string>
 places = ["India", "Japan", "Taiwan"]
 ```
 ### enum
----
 ```ts
 const enum Color{
     Red,
@@ -133,7 +123,6 @@ var AnotherColor;
 let ac = AnotherColor.Indigo;
 ```
 ### Tuple
----
 * The order matters in the init of a tuple
 ```ts
 let numberTuple : [number, boolean, string]
@@ -144,7 +133,6 @@ numberTuple.push('Something')
 [ 1, false, 'hello', 'Something' ]
 ```
 #### **Readonly tuple**
----
 * It is a good practice to make tuples readonly
 ```ts
 const readOnlyTuple : readonly [number, boolean, string] = [5, true, 'Rohith Vishaal']
@@ -154,13 +142,11 @@ const readOnlyTuple : readonly [number, boolean, string] = [5, true, 'Rohith Vis
 readOnlyTuple.push('new value')
 ```
 ### Any
----
 * donot use this in production as it same as in JS. there is no type safety
 ```ts
 let department:any
 ```
 ### void
----
 * void represents the return value of functions which don’t return a value.
 ```ts
 function greet: void  {
@@ -168,7 +154,6 @@ function greet: void  {
 }
 ```
 ### never
----
 * **never** is a type with 0 values
 * All expressions cannot be evaluated to a type
 * for those kind of functions or expressions we use **never**
