@@ -152,5 +152,119 @@ ng version
     ### app/
     * where we write the main logic
 
+# Components
+* Componenets are building block on Angular Applications
+* Component consists a HTML Template, Typescript Class and CSS Styles
 
+## To create an component
+```sh
+# Long Hand
+ng generate component <component_name>
+# Short Hand
+ng g c <component_name>
 
+# Example
+ng g c rooms
+```
+* This creates a folder with the component name
+* Under this folder there are 4 files that angular generates
+* For Example if our component name is **rooms** then the following are generated
+* Angular also updates the src/app/app.module.ts
+* rooms/
+    * rooms.component.css
+    * rooms.component.html
+    * rooms.component.spec.ts
+    * rooms.component.ts
+---
+* ### A component syntax sample
+```ts
+import { Component} from '@angular/core';
+
+@Component({
+  selector: 'app-rooms',
+  templateUrl: './rooms.component.html',
+  styleUrls: ['./rooms.component.css']
+})
+
+export class RoomsComponent{
+    // Component Logic
+}
+```
+
+## Binding Syntax
+There are 3 ways to bind information available in the **rooms.component.ts** to **rooms.component.html**
+* #### Interpolation
+* #### Property Binding
+* #### Event Binding
+### Interpolation
+
+Inside rooms.component.ts
+```ts
+import { Component} from '@angular/core';
+
+@Component({
+  selector: 'app-rooms',
+  templateUrl: './rooms.component.html',
+  styleUrls: ['./rooms.component.css']
+})
+
+export class RoomsComponent{
+    // Component Logic
+    hotelName:string = 'Taj Hotel'
+}
+```
+* Now this `hotelName` can be used inside **rooms.component.html** by wrapping it in `{{}}`
+```html
+<h1>Welcome to {{hotelName}}!<h1> 
+```
+### Property binding
+Inside rooms.component.ts
+```ts
+import { Component} from '@angular/core';
+
+@Component({
+  selector: 'app-rooms',
+  templateUrl: './rooms.component.html',
+  styleUrls: ['./rooms.component.css']
+})
+
+export class RoomsComponent{
+    // Component Logic
+    hotelName:string = 'Taj Hotel'
+    numberOfRooms:number = 10
+}
+```
+* Now this `numberOfRooms` can be used inside **rooms.component.html** by wrapping it in `[<html-property>]="<variable>"`
+```html
+<h1>{{hotelName}}<h1>
+<p [innerText]="numberOfRooms"></p> 
+```
+### Event Binding
+Inside rooms.component.ts
+```ts
+import { Component} from '@angular/core';
+
+@Component({
+  selector: 'app-rooms',
+  templateUrl: './rooms.component.html',
+  styleUrls: ['./rooms.component.css']
+})
+
+export class RoomsComponent{
+    // Component Logic
+    hotelName:string = 'Taj Hotel'
+    numberOfRooms:number = 10
+    hideRooms:boolean = false
+    toggle(){
+        this.hideRooms = !this.hideRooms
+    }
+}
+```
+* Now this `toggle()` can be used inside **rooms.component.html** by wrapping it in `(<event>)="<function()>"`
+```html
+<div [hidden]="hideRooms">
+<h1>Welcome to {{hotelName}}!<h1>
+<p [innerText]="numberOfRooms"></p>
+</div>
+<button (click)="toggle()">Toggle</button> 
+```
