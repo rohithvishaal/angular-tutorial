@@ -268,3 +268,69 @@ export class RoomsComponent{
 </div>
 <button (click)="toggle()">Toggle</button> 
 ```
+# Directives
+* Directives are used to change the behaviour and apperance if DOM element.
+* Directives can implement all lifecyle hooks.
+* Directives cannot have template
+
+## Types of Directives
+* **Structural Directives** - represented by **\***
+    * these can add or remove DOM elements
+* **Attribute Directives**
+    * They can Modify DOM but cannot add or remove elements.
+
+## Built-in Directives
+* ### **\* ngIf**
+* ### **\* ngFor**
+* ### **\* ngSwitch**
+    #### **\*ngSwitchCase**
+    #### **\*ngSwitchDefault**
+* ### **ngClass**
+* ### **ngStyle**
+---
+
+1) ### **\* ngIf**  
+    Consider this example
+    ```html
+    <div *ngIf="hideRooms">
+    <h1 [innerText]="hotelName"></h1>
+    <p>rooms works!</p>
+    </div>
+
+    <button (click)="toggle()">Toggle</button>
+
+    {{rooms?.availableRooms ?? 'No Rooms'}}
+    <!-- If rooms doesn't a property availableRooms then it renders 'No Rooms' -->
+    <div *ngIf="rooms.availableRooms">
+        Rooms List
+    </div>
+    ```
+    * The `<div>` only exists in the DOM tree if the `hideRooms` evaluates to `true` else the `<div>` is removed from the DOM tree.
+    * In the earlier example where we used `[hidden]="hideRooms"` just hides the `<div>` but it is present in the DOM tree.
+    * If more such nodes are present, It would be expensive to render the entire `DOM Tree`.
+
+2) ### **\* ngFor**
+    * As shown in the below code **\* ngFor** is used for iterating.
+    ```html
+    <ul>
+    <li *ngFor="let index of [0,1,2,3,4,5]">
+        {{ index }}
+    </li>
+    </ul>
+    ```
+3) ### **\* ngSwitch**
+    * As shown in the below code **\* ngSwitch** is used for switching.
+    * Let's display data according to the role.
+    ```html
+    <div [ngSwitch]="role">
+        <div *ngSwitchCase="'User'">
+        Welcome User!
+        </div>
+        <div *ngSwitchCase="'Admin'">
+            <app-rooms></app-rooms>
+        </div>
+        <div *ngSwitchDefault>
+            <p> No Access! </p>
+        </div>
+    </div>
+    ```
