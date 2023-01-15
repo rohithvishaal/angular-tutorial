@@ -565,3 +565,73 @@ export class PercentPipeComponent {
 
 ## AsyncPipe
 **[AsyncPipe  Documentation](https://angular.io/api/common/AsyncPipe)**
+
+# Component Communication
+* The scenario where two or more components needs to interact is known as **component communication**.
+* There are multiple ways to achieve the component communication
+## Ways for Component Communication
+* Using **@Input** and **@Output**
+* Using **@ViewChild** and **@ContentChild**
+* Using Services
+# Lifecycle Hooks
+* Component instance has lifecycle hooks which can help you hook into different events on Components
+* Lifecycle ends when component is destroyed
+
+## Few Lifecycle Hooks
+* **ngOnChanges**
+* **ngOnInit**
+* **ngDoCheck**
+* **ngAfterContentInit**
+* **ngAfterContentChecked**
+* **ngAfterViewInit**
+* **ngAfterViewChecked**
+* **ngOnDestroy**
+
+## ngOnInit
+**TLDR**
+```
+* Constructor initialize class members.
+* ngOnInit() is a place to put the code that we need to execute at very first as soon as the class is instantiated.
+```
+---
+* **ngOnInit** is a life cycle hook called by Angular to indicate that the Angular is done creating the component.
+* In order to use OnInit we have to import it in the component class like this:  
+    ```ts
+    import {Component, OnInit} from '@angular/core';
+    ```
+* Actually implementing OnInit in every component is not mandatory. But considered good practice.
+* A class implements OnInit like this:
+    ```ts
+    export class AppComponent implements OnInit { }
+    ```
+```ts
+// import OnInit
+import {Component, OnInit} from '@angular/core';
+...
+
+@Component({
+	...
+})
+// implementing OnInit
+export class AppComponent implements OnInit {
+  
+  constructor() {
+     // constructor called first time before the ngOnInit()
+  }
+
+  ngOnInit() {
+     // called after the constructor and called  after the first ngOnChanges() 
+  }
+  
+}
+```
+* Angular calls its **ngOnChanges()** method whenever it detects changes to the value of input properties of the component (or directive).
+
+### Difference between ngOnInit() and constructor()
+---
+* We use `constructor()` for all the initialization/declaration.
+* It’s better to avoid writing actual work in the constructor.
+* The `constructor()` should only be used to initialize class members but shouldn't do actual "work".
+* So we should use `constructor()` to setup Dependency Injection, Initialization of class fields etc.
+* **ngOnInit()** is a better place to write "actual work code" that we need to execute as soon as the class is instantiated.
+* Like loading data from Database — to show the user in your HTML template view. Such code should be written in **ngOnInit()**.
