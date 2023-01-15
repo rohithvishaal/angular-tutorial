@@ -359,4 +359,209 @@ export class RoomsComponent{
     </div>
     ```
 # Pipes
+* Pipes re used for data transformation
+* Pipes don't change actual object
 
+## Built-in Pipes
+
+* **DatePipe**
+* **UpperCasePipe**
+* **LowerCasePipe**
+* **TitleCasePipe**
+* **CurrencyPipe**
+* **DecimalPipe**
+* **PercentPipe**
+* **JsonPipe**
+* **SlicePipe**
+* **AsyncPipe**
+
+## DatePipe
+`app.component.html`
+```html
+<div>
+    {{'Sun Jan 15 2023 14:41:22 GMT+0530 (India Standard Time)' | date}}
+</div>
+```
+`outputs`
+```
+Jan 15, 2023
+```
+* For other Date and Time Formats
+**[DatePipe Documentation](https://angular.io/api/common/DatePipe)**
+
+## UpperCasePipe
+`app.component.html`
+```html
+<div>
+    {{'hello world' | uppercase}}
+</div>
+```
+`outputs`
+```
+HELLO WORLD
+```
+**[UpperCasePipe Documentation](https://angular.io/api/common/UpperCasePipe)**
+
+## LowerCasePipe
+`app.component.html`
+```html
+<div>
+    {{'HELLO WORLD' | lowercase}}
+</div>
+```
+`outputs`
+```
+hello world
+```
+**[LowerCasePipe Documentation](https://angular.io/api/common/LowerCasePipe)**
+
+## TitleCasePipe
+`app.component.html`
+```html
+<div>
+    {{'HELLO WORLD' | titlecase}}
+</div>
+```
+`outputs`
+```
+Hello World
+```
+**[TitleCasePipe Documentation](https://angular.io/api/common/TitleCasePipe)**
+
+## CurrencyPipe
+`app.component.html`
+```html
+<div>
+    {{'1000' | currency:'INR'}}
+</div>
+```
+`outputs`
+```
+₹1000
+```
+**[CurrencyPipe Documentation](https://angular.io/api/common/CurrencyPipe)**
+
+## JsonPipe
+`rooms.component.ts`
+```ts
+@Component({
+  selector: 'app-jsontest',
+  template: `
+  <div>
+  <p>Without JSON pipe:</p>
+  <pre>{{object}}</pre>
+  <p>With JSON pipe:</p>
+  <pre>{{object | json}}</pre>
+  </div>
+  `
+})
+
+export class JsontestComponent {
+  object: Object = { foo: 'bar', baz: 'qux', nested: { xyz: 3, numbers: [1, 2, 3, 4, 5] } };
+}
+```
+`outputs`
+```
+Without JSON pipe:
+
+[object Object]
+
+With JSON pipe:
+
+{
+  "foo": "bar",
+  "baz": "qux",
+  "nested": {
+    "xyz": 3,
+    "numbers": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ]
+  }
+}
+```
+**[JsonPipe Documentation](https://angular.io/api/common/JsonPipe)**
+
+## SlicePipe
+`rooms.component.ts`
+```ts
+@Component({
+  selector: 'slice-list-pipe',
+  template: `<ul>
+    <li *ngFor="let i of collection | slice:1:3">{{i}}</li>
+  </ul>`
+})
+export class SlicePipeListComponent {
+  collection: string[] = ['a', 'b', 'c', 'd'];
+}
+```
+`outputs`
+```
+<li>b</li>
+<li>c</li>
+```
+**[SlicePipe  Documentation](https://angular.io/api/common/SlicePipe)**
+
+## DecimalPipe
+`app.component.html`
+```ts
+// Syntax:   
+{{ value_expression | number [ : digitsInfo [ : locale ] ] }}
+```
+digitsInfo
+```
+{minIntegerDigits}.{minFractionDigits}-{maxFractionDigits}
+```
+
+* **minIntegerDigits**: The minimum number of integer digits before the decimal point. **Default is 1**.
+
+* **minFractionDigits**: The minimum number of digits after the decimal point. **Default is 0**.
+
+* **maxFractionDigits**: The maximum number of digits after the decimal point. **Default is 3.**
+* If the formatted value is truncated it will be rounded using the "to-nearest" method:
+```ts
+{{3.6 | number: '1.0-0'}}
+<!--will output '4'-->
+
+{{-3.6 | number:'1.0-0'}}
+<!--will output '-4'-->
+```
+
+```html
+<div>
+    {{'1234.123' | number:'1.2-2'}}
+</div>
+```
+`outputs`
+```
+1,234.1
+```
+**[DecimalPipe  Documentation](https://angular.io/api/common/DecimalPipe)**
+
+## PercentPipe
+```ts
+@Component({
+  selector: 'percent-pipe',
+  template: `<div>
+    <!--output '26%'-->
+    <p>A: {{a | percent}}</p>
+
+    <!--output '0,134.950%'-->
+    <p>B: {{b | percent:'4.3-5'}}</p>
+
+    <!--output '0 134,950 %'-->
+    <p>B: {{b | percent:'4.3-5':'fr'}}</p>
+  </div>`
+})
+export class PercentPipeComponent {
+  a: number = 0.259;
+  b: number = 1.3495;
+}
+```
+**[PercentPipe  Documentation](https://angular.io/api/common/PercentPipe)**
+
+## AsyncPipe
+**[AsyncPipe  Documentation](https://angular.io/api/common/AsyncPipe)**
