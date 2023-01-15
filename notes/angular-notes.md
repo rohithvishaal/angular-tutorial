@@ -334,3 +334,29 @@ export class RoomsComponent{
         </div>
     </div>
     ```
+4) ### **ngClass**
+    * ngClass is used for applying css classes to the elements.
+    
+    **`rooms.component.html`**
+    ```html
+    <div [ngClass]="'hello'">
+        Hello World
+    </div>
+    ```
+    **`rooms.component.css`**
+    ```css
+    .hello{
+        background-color: tomato;
+    }
+    ``` 
+5) ### **ngStyle**
+    * ngStyle is used for applying inline-css to the elements.
+    
+    **`rooms.component.html`**
+    ```html
+   <div [ngStyle]="{'background-color':'blue'}">
+        Words in blue BG
+    </div>
+    ```
+# Pipes
+
