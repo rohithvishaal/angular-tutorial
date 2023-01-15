@@ -359,7 +359,7 @@ export class RoomsComponent{
     </div>
     ```
 # Pipes
-* Pipes re used for data transformation
+* Pipes are used for data transformation
 * Pipes don't change actual object
 
 ## Built-in Pipes

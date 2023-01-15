@@ -1,0 +1,57 @@
+<div *ngIf="hideRooms">
+    <h1 [innerText]="hotelName"></h1>
+    <p>rooms works!</p>
+    <table>
+        <tr>
+            <th>Index</th>
+            <th>Even/Odd</th>
+            <th *ngFor="let room of hotelRoomList[0]| keyvalue: originalOrder">{{room.key}}</th>
+        </tr>
+        <tr *ngFor="let room of hotelRoomList;let e=even; let o=odd; let i=index">
+            <td>{{i}}</td>
+            <td>{{e?"Even":"Odd"}}</td>
+            <td>
+                {{room.roomNumber}}
+            </td>
+            <td>
+                {{room.price}}
+            </td>
+            <td>
+                {{room.type}}
+            </td>
+            <td>
+                {{room.amenities}}
+            </td>
+            <td>
+                {{room.checkInTime }}
+            </td>
+            <td>
+                {{room.checkOutTime | date: 'short'}}
+            </td>
+        </tr>
+    </table>
+</div>
+<div [ngStyle]="{'background-color':'blue'}">
+    Hello World
+</div>
+<button (click)="toggle()">Toggle</button>
+<p>{{hideRooms?'Rooms':'Rooms Hidden'}}</p>
+
+<div>
+    {{'Sun Jan 15 2023 14:41:22 GMT+0530 (India Standard Time)' | date}}
+</div>
+<div>
+    {{'HELLO WORLD' | lowercase}}
+</div>
+<div>
+    {{'hello world' | uppercase}}
+</div>
+<div>
+    {{'HELLO WORLD' | titlecase}}
+</div>
+<div>
+    {{'1000' | currency: 'INR'}}
+</div>
+<div>
+    {{'1234.123' | number:'1.1-1'}}
+</div>
