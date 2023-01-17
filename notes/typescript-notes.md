@@ -424,4 +424,4 @@ console.log(vishaal.Login())
     * It contains the metadata about where the TS file comes from. 
     * The browser redirects to the TS file instead of JS file.
 * "noEmit" : "true"  
-    * Will not generate JS file. 
+    * Will not generate the JS file. 
