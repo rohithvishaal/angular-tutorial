@@ -1,0 +1,30 @@
+<p>rooms-list works!</p>
+<table>
+    <tr>
+        <th>Index</th>
+        <th>Even/Odd</th>
+        <th *ngFor="let room of rooms[0]| keyvalue: originalOrder">{{room.key}}</th>
+    </tr>
+    <tr *ngFor="let room of rooms;let e=even; let o=odd; let i=index">
+        <td>{{i}}</td>
+        <td>{{e?"Even":"Odd"}}</td>
+        <td>
+            {{room.roomNumber}}
+        </td>
+        <td>
+            {{room.price}}
+        </td>
+        <td>
+            {{room.roomType}}
+        </td>
+        <td>
+            {{room.amenities}}
+        </td>
+        <td>
+            {{room.checkInTime }}
+        </td>
+        <td>
+            {{room.checkOutTime | date: 'short'}}
+        </td>
+    </tr>
+</table>

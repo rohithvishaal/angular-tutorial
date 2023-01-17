@@ -1,0 +1,29 @@
+<div *ngIf="hideRooms">
+    <h1 [innerText]="hotelName"></h1>
+    <p>rooms works!</p>
+    <app-rooms-list [rooms]="hotelRoomList"></app-rooms-list>
+</div>
+<div [ngStyle]="{'background-color':'blue'}">
+    Hello World
+</div>
+<button (click)="toggle()">Toggle</button>
+<p>{{hideRooms?'Rooms':'Rooms Hidden'}}</p>
+
+<div>
+    {{'Sun Jan 15 2023 14:41:22 GMT+0530 (India Standard Time)' | date}}
+</div>
+<div>
+    {{'HELLO WORLD' | lowercase}}
+</div>
+<div>
+    {{'hello world' | uppercase}}
+</div>
+<div>
+    {{'HELLO WORLD' | titlecase}}
+</div>
+<div>
+    {{'1000' | currency: 'INR'}}
+</div>
+<div>
+    {{'1234.123' | number:'1.1-1'}}
+</div>
