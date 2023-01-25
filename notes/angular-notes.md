@@ -300,7 +300,7 @@ export class RoomsComponent{
     <button (click)="toggle()">Toggle</button>
 
     {{rooms?.availableRooms ?? 'No Rooms'}}
-    <!-- If rooms doesn't a property availableRooms then it renders 'No Rooms' -->
+    <!-- If rooms doesn't have a property 'availableRooms' then it renders 'No Rooms' -->
     <div *ngIf="rooms.availableRooms">
         Rooms List
     </div>
@@ -621,11 +621,67 @@ export class RoomsListComponent {
 ```html
 <div *ngIf="hideRooms">
     <h1 [innerText]="hotelName"></h1>
-    <p>rooms works!</p>
     <app-rooms-list [rooms]="hotelRoomList"></app-rooms-list>
 </div>
 ```  
 **`<app-rooms-list [rooms]="<variable or data>"></app-rooms-list>`**
+
+## Using @Output
+> This is done in a seperate angular app to demonstrate the feature
+* Outputs are actually events  
+`@Output <event_name> = new EventEmitter<data_type_to_send>();`
+* Check the below example  
+`Lets create a component inside app`  
+    ```
+    ng g c output-pipe
+    ```  
+`inside output-pipe.component.html`
+```html
+<div *ngFor="let i of [1,2,3,4,5]">
+    <button (click)="clickHandler(i)">{{i}}</button>
+</div>
+```
+`inside output-pipe.component.ts`
+* We are creating an @Output event for emitting number that we select.
+```ts
+import { Component, EventEmitter, Output } from '@angular/core';
+
+@Component({
+  selector: 'app-output',
+  templateUrl: './output.component.html',
+  styleUrls: ['./output.component.css']
+})
+export class OutputComponent {
+  @Output() emitNumber = new EventEmitter<number>();
+  clickHandler(num: number) {
+    this.emitNumber.emit(num)
+  }
+}
+```
+`Inside app.component.html`
+* We are utilising the `emitNumber` that we created earlier in the child component
+```html
+<div>You have selected {{clickedNum ? clickedNum : 'Nothing'}}</div>
+<app-output (emitNumber)="emittedNumber($event)"></app-output>
+```
+`Inside app.component.ts`
+* Initializing the `clickedNum` variable to the data that we emitted in the child component and later we can use it for anything we want.
+```ts
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
+})
+export class AppComponent {
+  title = 'pipe_test';
+  clickedNum!: number;
+  emittedNumber(num: number) {
+    this.clickedNum = num
+  }
+}
+```
 # Lifecycle Hooks
 * Component instance has lifecycle hooks which can help you hook into different events on Components
 * Lifecycle ends when component is destroyed
@@ -688,3 +744,48 @@ export class AppComponent implements OnInit {
 * So we should use `constructor()` to setup Dependency Injection, Initialization of class fields etc.
 * **ngOnInit()** is a better place to write "actual work code" that we need to execute as soon as the class is instantiated.
 * Like loading data from Database — to show the user in your HTML template view. Such code should be written in **ngOnInit()**.
+
+# Change Detection
+* **Angular Change Detection** is a mechanism for detecting when data changes in any component of your app and re-renders the view, so it displays the updated values or objects to end-users right away.
+* Changes occur on different occasions and derive from different events:  
+    * Data received from network requests or component events
+    * Mouse clicks, scrolling, mouseover, keyboard navigation
+    * Use of JavaScript timer functions such as setTimeOut, SetInterval
+    * AJAX calls
+* By default, Angular performs **change detection on all components** (from top to bottom) 
+* This happens whenever something triggers a change in your app - either a user event or data received from a network request
+* To detect and update the DOM with changed data, the framework provides its own change detector to each component.
+* The change detector reads the binding on a template, and reflects the updated data to the view, ensuring that both the data model and the DOM are in sync.
+### [changeDetectionDocumentation](https://angular.io/guide/change-detection)
+## ngOnChanges
+* Can only be applied on component or directive which has `@Input()` property
+```ts
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+
+@Component({
+  selector: 'app-output',
+  templateUrl: './output.component.html',
+  styleUrls: ['./output.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
+})
+export class OutputComponent implements OnChanges {
+  @Input() cities: string[] = []
+  @Output() emitNumber = new EventEmitter<number>();
+  clickHandler(num: number) {
+    this.emitNumber.emit(num)
+  }
+  numbers: number[] = [1, 2, 3, 4, 5]
+  addNumber() {
+    this.numbers.push(this.numbers[this.numbers.length - 1] + 1)
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log(changes)
+    if (changes['cities']) {
+      console.log('inside changes')
+      this.cities = changes['cities'].currentValue
+    }
+  }
+}
+```
+### [ngOnChanges Documentation](https://angular.io/api/core/OnChanges)
