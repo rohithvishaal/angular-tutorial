@@ -789,3 +789,196 @@ export class OutputComponent implements OnChanges {
 }
 ```
 ### [ngOnChanges Documentation](https://angular.io/api/core/OnChanges)
+
+## ngDoCheck
+* In Angular, the **`ngDoCheck`** lifecycle hook is called during the change detection process.   
+* It allows a component to detect and act upon changes that are made to its inputs and internal state.   
+* The **`ngDoCheck`** hook is called after the **`ngOnChanges`** hook and before the **`ngAfterContentChecked`** and **`ngAfterViewChecked`** hooks.
+
+* Here's an example of how you can use the **`ngDoCheck`** hook in a component:
+
+```ts
+import { Component, DoCheck } from '@angular/core';
+
+@Component({
+  selector: 'app-example',
+  template: `
+    <p (click)="updateValue()">Value: {{ value }}</p>
+  `
+})
+export class ExampleComponent implements DoCheck {
+  value = 0;
+
+  ngDoCheck() {
+    // Check for changes in the component's inputs or internal state
+    console.log('Value changed:', this.value);
+  }
+
+  updateValue() {
+    this.value++;
+  }
+}
+```
+
+* In this example, the component has a property called value that is displayed in the template.   
+* The **`ngDoCheck`** hook is used to detect changes to the value property, and a message is logged to the console every time the value changes.  
+* The component also has a method called **`updateValue()`** that is used to increment the value property.
+
+* When the component is rendered and the updateValue is called, the value is incremented and the ngDoCheck lifecycle hook is invoked and logs the new value.
+
+> It's worth noting that **`ngDoCheck`** is called very frequently and it can affect the performance of the application, so it's important to use it carefully and only when necessary.
+* Note that Angular provides other hooks like **`ngOnChanges`** that can also be used to detect changes in the component's **inputs** and **internal state**, but **`ngDoCheck`** allows to perform custom change detection logic as well and it's called whenever Angular performs change detection, whereas **`ngOnChanges`** is called only when the input properties of a component change.
+
+## ngAfterViewInit
+* **`ngAfterViewInit`** is a lifecycle hook in Angular that is called after the component's view and child views have been initialized.  
+* It is a method that is defined in a component and is executed by Angular after the view is fully rendered.
+* This lifecycle hook is useful for performing actions that require the component's view and child views to be fully rendered and available.
+* Let's create a component called header  
+```
+ng g c header
+```
+* `Inside header.component.ts`
+```ts
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-header',
+  template: `<h1>{{title}}</h1>`
+})
+export class HeaderComponent {
+  title: string = 'Header is not changed'
+}
+```
+* `Inside app.component.ts`
+```ts
+import {Component, ViewChild } from '@angular/core';
+import { HeaderComponent } from './header/header.component';
+
+@Component({
+  selector: 'app-root',
+  template: `<app-header></app-header>`,
+  styleUrls: ['./app.component.css'],
+
+})
+export class AppComponent {
+  @ViewChild(HeaderComponent, {static:false}) headerComp!: HeaderComponent
+
+  ngAfterViewInit() {
+    console.log(this.headerComp)
+    this.headerComp.title = 'Header is Changed'
+  }
+}
+// The title is changed after the both views are generated.
+```
+* **`@ViewChild`** decorator is used to access a child component or an element within the template of a component.
+* It allows you to access the properties and methods of the child component, and also to interact with its template
+* The **`@ViewChild`** decorator takes the type of the child component or the name of the element as an argument. 
+*  Once the view is initialized, the child component or element can be accessed using the variable decorated with the **`@ViewChild`** decorator.
+* In Angular, when using the **`@ViewChild`** decorator to access a child component or an element within the template of a component, you can pass an additional option object as a second argument. 
+* One of the options available in this object is **`static`**, which is a Boolean that determines whether the query for the child component or element should be resolved during the change detection cycle or before it.
+* When **`static`** is set to **`true`**, the query for the child component or element is resolved before the change detection cycle, which means that the value of the variable decorated with **`@ViewChild`** is set once when the view is initialized and it will not be updated when the view is updated.
+* Also, when using static: true option, you can use **`@ViewChildren`** instead of **`@ViewChild`** in case you need to access multiple instances of the same component or element.
+
+### @ViewChildren
+```ts
+import { Component, ViewChildren } from '@angular/core';
+import { ChildComponent } from './child.component';
+
+@Component({
+  selector: 'app-parent',
+  template: `
+    <app-child></app-child>
+    <app-child></app-child>
+    <app-child></app-child>
+  `
+})
+export class ParentComponent {
+  @ViewChildren(ChildComponent) children: QueryList<ChildComponent>;
+
+  ngAfterViewInit() {
+    this.children.forEach(child => {
+      console.log(child);
+    });
+  }
+}
+```
+* In this example, the ParentComponent has multiple instances of the **`ChildComponent`** in its template. 
+* The **`@ViewChildren`** decorator is used to query for all instances of the **`ChildComponent`** within the view.
+* The query results are stored in a QueryList and can be accessed in the **`ngAfterViewInit`** lifecycle hook.
+
+# ngAfterViewChecked
+* **`ngAfterViewChecked`** is a lifecycle hook in Angular that is called after the component's view and its children's views have been checked.
+* This means that the component's template and the templates of all its child components have been updated with the latest data.
+* This hook is useful for performing any operations that need to be done after the views have been updated.
+* For example, you could use this hook to update a chart after new data has been loaded, or to update a form's validity status after an input's value has been changed.
+```ts
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-example',
+  template: `
+    <input [(ngModel)]="name">
+    <p>Hello, {{ name }}!</p>
+  `
+})
+export class ExampleComponent {
+  name: string;
+
+  ngAfterViewChecked() {
+    console.log('View has been checked and updated');
+  }
+}
+```
+* In this example, the **`ExampleComponent`** has an input field and a paragraph element that displays the value of the name property. 
+*  When the user enters a new value in the input field, the view updates with the new value and the **`ngAfterViewChecked`** hook is called
+*  This logs a message to the console to indicate that the view has been updated.
+* It's important to note that this hook can be called multiple times during the component's lifecycle, so it's important to make sure that any code inside it is efficient and doesn't cause an infinite loop.
+
+## Creating Component Dynamically
+* `Inside header.component.ts`
+```ts
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-header',
+  template: `<h1>{{title}}</h1>`,
+  styleUrls: ['./header.component.css']
+})
+export class HeaderComponent {
+  title: string = 'Header is not changed'
+}
+```
+* `Inside app.component.html`
+```html
+<ng-template #header> </ng-template>
+```
+* ng-template will not render anything and `#header` is the reference ID for that ng-template
+* `Inside app.component.ts` we insert the below lines
+```ts
+@ViewChild('header', { read: ViewContainerRef }) vcr!: ViewContainerRef;
+ngAfterViewInit() {
+  const componentRef = this.vcr.createComponent(HeaderComponent)
+  componentRef.instance.title = 'Header dynamically changed'
+}
+```
+* We use `@ViewChild` to read the reference and create an object of type `ViewContainerRef`
+* In the `ngAfterViewInit()` we use the `createComponent` method to load the `HeaderComponent` after the View has been Initialized
+
+## Accessing a HTML Element dynamically
+```ts
+import { Component, ViewChild, ElementRef, onInit } from '@angular/core';
+
+@Component({
+  selector: 'app-parent',
+  template: `
+    <div #name>Hello World!</div>
+  `
+})
+export class ParentComponent implements onInit {
+  @ViewChild('name', {static:true}) name!: ElementRef;
+
+  ngOnInit() {
+    console.log(this.name.innerText.value);
+  }
+}
+```
